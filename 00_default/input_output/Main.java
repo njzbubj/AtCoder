@@ -1,12 +1,10 @@
 package input_output;
-import java.util.Arrays;
+
 import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ
 		Scanner sc = new Scanner(System.in);
-		// 整数の入力
 		int N = sc.nextInt();
 		int M = sc.nextInt();
 		int R = sc.nextInt();
@@ -25,7 +23,6 @@ public class Main {
 
 		int ans = 0;
 
-		// 出力
 		System.out.println(ans);
 	}
 }
