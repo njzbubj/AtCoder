@@ -8,37 +8,39 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
-		int A[] = new int[3 * N];
+		long A[] = new long[3 * N];
 		for (int i = 0; i < 3 * N; i++) {
-			A[i] = sc.nextInt();
+			A[i] = sc.nextLong();
 		}
-		int ans = 0;
+		long ans = -Long.MAX_VALUE;
 
-		PriorityQueue quefront = new PriorityQueue(N + 1);
-		PriorityQueue queback = new PriorityQueue(N + 1, new MyComparator());
-		int front[] = new int[N];
-		int back[] = new int[N];
+		PriorityQueue<Long> quefront = new PriorityQueue<Long>(N + 1);
+		PriorityQueue<Long> queback = new PriorityQueue<Long>(N + 1, new MyComparator());
+		long front[] = new long[N];
+		long back[] = new long[N];
 		System.arraycopy(A, 0, front, 0, N);
 		System.arraycopy(A, 2 * N, back, 0, N);
-		int sumfront = 0;
-		int sumback = 0;
-		int tmp[][] = new int[N + 1][2];
+		long sumfront = 0;
+		long sumback = 0;
+		long tmp[][] = new long[N + 1][2];
 		for (int i = 0; i < N; i++) {
 			quefront.add(front[i]);
 			queback.add(back[i]);
 			sumfront += front[i];
 			sumback += back[i];
 		}
-		for (int i = N; i <= 2 * N; i++) {
+		tmp[0][0] = sumfront;
+		tmp[N][1] = sumback;
+		for (int i = N; i < 2 * N; i++) {
 			sumfront += A[i];
 			quefront.add(A[i]);
-			sumfront -= (int) quefront.poll();
-			tmp[i - N][0] = sumfront;
+			sumfront -= (long) quefront.poll();
+			tmp[i - N + 1][0] = sumfront;
 		}
-		for (int i = 2 * N; i >= N; i--) {
+		for (int i = 2 * N - 1; i >= N; i--) {
 			sumback += A[i];
 			queback.add(A[i]);
-			sumback -= (int) queback.poll();
+			sumback -= (long) queback.poll();
 			tmp[i - N][1] = sumback;
 		}
 		for (int i = 0; i < N + 1; i++) {
@@ -48,17 +50,17 @@ public class Main {
 	}
 }
 
-class MyComparator implements Comparator {
+class MyComparator implements Comparator<Object> {
 
 	public int compare(Object obj1, Object obj2) {
 
-		int num1 = (int) obj1;
-		int num2 = (int) obj2;
+		long num1 = (long) obj1;
+		long num2 = (long) obj2;
 
 		if (num1 > num2) {
-			return 1;
-		} else if (num1 < num2) {
 			return -1;
+		} else if (num1 < num2) {
+			return 1;
 		} else {
 			return 0;
 		}
